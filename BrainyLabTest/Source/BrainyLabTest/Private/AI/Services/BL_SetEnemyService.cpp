@@ -12,8 +12,9 @@
 
 UBL_SetEnemyService::UBL_SetEnemyService()
 {
-	NodeName = "Set enemy";
+	NodeName = "Set Enemy And Projectile";
 }
+
 
 void UBL_SetEnemyService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
@@ -30,4 +31,7 @@ void UBL_SetEnemyService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* Nod
 	
 	AActor* LEnemy = LPerceptionComponent->GetClosestEnemy();
 	LBlackBoard->SetValueAsObject(EnemyActor.SelectedKeyName, LEnemy);
+
+	AActor* LProjectileActor = LPerceptionComponent->GetClosestProjectile();
+	LBlackBoard->SetValueAsObject(ProjectileActor.SelectedKeyName, LProjectileActor);
 }

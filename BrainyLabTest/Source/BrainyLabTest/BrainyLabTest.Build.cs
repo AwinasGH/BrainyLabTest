@@ -14,7 +14,9 @@ public class BrainyLabTest : ModuleRules
 			"CoreUObject", 
 			"Engine",
 			"InputCore",
-			"GameplayTasks"
+			"GameplayTasks",
+			"UMG",
+			"NavigationSystem"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

@@ -61,6 +61,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PlayerCharacter|Components")
 		class UCameraComponent* TopDownCamera = nullptr;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PlayerCharacter|Components")
+		class UAIPerceptionStimuliSourceComponent* AIStimuliComponent = nullptr;
+
 //................................................................................................//
 
 };

@@ -7,12 +7,13 @@
 #include "BL_GameScoreWD.generated.h"
 
 
+class UTextBlock;
 class ABL_GameHUD;
 
 /*
 	
 */
-UCLASS()
+UCLASS(Abstract)
 class BRAINYLABTEST_API UBL_GameScoreWD : public UUserWidget
 {
 	GENERATED_BODY()
@@ -28,13 +29,11 @@ protected:
 
 	virtual void NativeConstruct() override;
 
-	
-//c++ values
+//c++ private methods
 private:
-
-	int PlayerScore = 0;
 	
-	int EnemyScore = 0;
+	UFUNCTION()
+		void OnScoreChanged(int PlayerScore, int EnemyScore);
 	
 //>>.................................................................................................................................................<<//
 
@@ -49,6 +48,12 @@ public:
 
 //Blueprint values
 public:
+
+	/*
+		Current score text block
+	*/
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget), Category = "GameScore|Widgets")
+		UTextBlock* ScoreText = nullptr;
 	
 	UPROPERTY(BlueprintReadOnly)
 		ABL_GameHUD* GameHUD = nullptr;

@@ -4,21 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTService.h"
-#include "BL_SetEnemyService.generated.h"
+#include "BL_NewDodgeLocationService.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class BRAINYLABTEST_API UBL_SetEnemyService : public UBTService
+class BRAINYLABTEST_API UBL_NewDodgeLocationService : public UBTService
 {
 	GENERATED_BODY()
-
-	
+		
 //constructor
 public:
 	
-	UBL_SetEnemyService();
+	UBL_NewDodgeLocationService();
+	
+	
 
 //c++ public methods
 public:
@@ -33,8 +34,15 @@ public:
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI | BlackboardKey")
-		FBlackboardKeySelector EnemyActor;
+		FBlackboardKeySelector DodgingTarget;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI | BlackboardKey")
-		FBlackboardKeySelector ProjectileActor;
+		FBlackboardKeySelector DodgeLocation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI | BlackboardKey")
+		float RandomRadius = 100.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI | BlackboardKey")
+		float Range = 100.0f;
+
 };

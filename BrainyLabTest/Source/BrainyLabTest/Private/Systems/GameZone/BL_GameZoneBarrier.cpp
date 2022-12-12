@@ -5,7 +5,7 @@
 
 #include "Components/BoxComponent.h"
 
-ABL_GameZoneBarrier::ABL_GameZoneBarrier(const FObjectInitializer& ObjectInitializer)
+ABL_GameZoneBarrier::ABL_GameZoneBarrier(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>("BarrierCollision");
 	SetRootComponent(BoxComponent);

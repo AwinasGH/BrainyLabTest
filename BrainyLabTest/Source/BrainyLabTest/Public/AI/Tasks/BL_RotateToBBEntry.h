@@ -3,28 +3,27 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BehaviorTree/BTService.h"
-#include "BL_SetEnemyService.generated.h"
+#include "BehaviorTree/BTTaskNode.h"
+#include "BL_RotateToBBEntry.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class BRAINYLABTEST_API UBL_SetEnemyService : public UBTService
+class BRAINYLABTEST_API UBL_RotateToBBEntry : public UBTTaskNode
 {
 	GENERATED_BODY()
-
 	
 //constructor
 public:
 	
-	UBL_SetEnemyService();
+	UBL_RotateToBBEntry();
+	
 
 //c++ public methods
 public:
 	
-	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
-
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
 //>>>................................................................................................>>>//
 
@@ -33,8 +32,5 @@ public:
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI | BlackboardKey")
-		FBlackboardKeySelector EnemyActor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI | BlackboardKey")
-		FBlackboardKeySelector ProjectileActor;
+		FBlackboardKeySelector BBEntry;
 };

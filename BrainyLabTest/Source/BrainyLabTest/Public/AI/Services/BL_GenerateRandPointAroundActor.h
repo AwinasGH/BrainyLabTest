@@ -4,21 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTService.h"
-#include "BL_SetEnemyService.generated.h"
+#include "BL_GenerateRandPointAroundActor.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class BRAINYLABTEST_API UBL_SetEnemyService : public UBTService
+class BRAINYLABTEST_API UBL_GenerateRandPointAroundActor : public UBTService
 {
 	GENERATED_BODY()
-
 	
 //constructor
 public:
 	
-	UBL_SetEnemyService();
+	UBL_GenerateRandPointAroundActor();
+	
+	
 
 //c++ public methods
 public:
@@ -33,8 +34,11 @@ public:
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI | BlackboardKey")
-		FBlackboardKeySelector EnemyActor;
+		FBlackboardKeySelector TargetActor;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI | BlackboardKey")
-		FBlackboardKeySelector ProjectileActor;
+		FBlackboardKeySelector RandomVectorAroundTarget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI | BlackboardValue")
+		float RandomRadius = 200.0f;
 };

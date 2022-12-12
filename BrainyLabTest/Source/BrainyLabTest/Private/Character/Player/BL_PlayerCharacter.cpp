@@ -5,6 +5,9 @@
 #include "Camera/CameraComponent.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Perception/AIPerceptionStimuliSourceComponent.h"
+#include "Perception/AISense_Prediction.h"
+#include "Perception/AISense_Sight.h"
 
 
 ABL_PlayerCharacter::ABL_PlayerCharacter(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
@@ -15,6 +18,10 @@ ABL_PlayerCharacter::ABL_PlayerCharacter(const FObjectInitializer& ObjectInitial
 	TopDownCamera->bUsePawnControlRotation = false;
 	TopDownCamera->SetRelativeRotation(FRotator(-90.0f, 0.0f, 0.0f));
 	TopDownCamera->SetActive(true);
+
+	AIStimuliComponent = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>("AIStimuliSourceComponent");
+	AIStimuliComponent->RegisterForSense(UAISense_Sight::StaticClass());
+	AIStimuliComponent->RegisterForSense(UAISense_Prediction::StaticClass());
 }
 
 void ABL_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

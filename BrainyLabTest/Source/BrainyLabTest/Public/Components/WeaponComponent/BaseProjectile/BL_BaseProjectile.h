@@ -28,4 +28,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "BaseProjectile|Components")
 		class UStaticMeshComponent* StaticMeshComponent = nullptr;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PlayerCharacter|Components")
+		class UAIPerceptionStimuliSourceComponent* AIStimuliComponent = nullptr;
 };

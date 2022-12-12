@@ -9,6 +9,7 @@
 
 #include "Character/AI/AIComponents/BL_AIPerceptionComponent.h"
 
+
 ABL_BaseAIController::ABL_BaseAIController()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -16,6 +17,7 @@ ABL_BaseAIController::ABL_BaseAIController()
 	AIPerceptionComponent = CreateDefaultSubobject<UBL_AIPerceptionComponent>("AIPerceptionComponent");
 	SetPerceptionComponent(*AIPerceptionComponent);
 }
+
 
 void ABL_BaseAIController::OnPossess(APawn* InPawn)
 {

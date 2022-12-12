@@ -12,11 +12,11 @@ UBL_WeaponComponent::UBL_WeaponComponent(const FObjectInitializer& ObjectInitial
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void UBL_WeaponComponent::Fire()
+bool UBL_WeaponComponent::Fire()
 {
 	if( const ACharacter* OwnerCharacter = Cast<ACharacter>(GetOwner()) )
 	{
-		if( !IsValid(OwnerCharacter->GetMesh()) ) return;
+		if( !IsValid(OwnerCharacter->GetMesh()) ) return false;
 		
 		FVector SocketLocation = FVector::ZeroVector;
 		FRotator SocketRotation = FRotator::ZeroRotator;
@@ -25,10 +25,25 @@ void UBL_WeaponComponent::Fire()
 		FActorSpawnParameters ActorSpawnParameters = FActorSpawnParameters();
 		ActorSpawnParameters.Instigator = Cast<APawn>(GetOwner());
 		
-		//const FRotator SocketForwardRotation = FRotator(0.0f, 0.0f, SocketRotation.Roll);
-		
-		GetWorld()->SpawnActor(ProjectileToSpawnClass.LoadSynchronous(), &SocketLocation, &SocketRotation, ActorSpawnParameters);
+		ABL_BaseProjectile* SpawnedProjectile = Cast<ABL_BaseProjectile>(GetWorld()->SpawnActor(ProjectileToSpawnClass.LoadSynchronous(), &SocketLocation, &SocketRotation, ActorSpawnParameters));
+		if( !IsValid(SpawnedProjectile) ) return false;
+			
+		ExistingProjectiles.Add(SpawnedProjectile);
 
 		OnFired();
+
+		return true;
+	}
+
+	return false;
+}
+
+void UBL_WeaponComponent::DestroyAllExistingProjectiles()
+{
+	if( ExistingProjectiles.Num() == 0 ) return;
+
+	for( int i = 0; i < ExistingProjectiles.Num() && ExistingProjectiles.IsValidIndex(i); ++i )
+	{
+		if( IsValid(ExistingProjectiles[i]) ) ExistingProjectiles[i]->Destroy();
 	}
 }

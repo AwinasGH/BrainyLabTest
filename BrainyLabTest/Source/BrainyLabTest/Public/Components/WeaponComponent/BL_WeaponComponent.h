@@ -20,6 +20,12 @@ public:
 
 	UBL_WeaponComponent(const FObjectInitializer& ObjectInitializer);
 	
+	
+//constructor
+public:
+
+	UPROPERTY(Transient)
+		TArray<ABL_BaseProjectile*> ExistingProjectiles;
 
 
 //>>>...............................................................................................................................................................................<<<//
@@ -29,7 +35,10 @@ public:
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "WeaponComponent|Fire")
-		virtual void Fire();
+		virtual bool Fire();
+
+	UFUNCTION(BlueprintCallable, Category = "WeaponComponent|Projectiles")
+		void DestroyAllExistingProjectiles();
 
 //Blueprint protected methods:
 protected:

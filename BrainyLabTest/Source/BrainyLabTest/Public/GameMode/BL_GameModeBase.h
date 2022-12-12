@@ -3,12 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Character/BL_BaseCharacter.h"
 #include "GameFramework/GameModeBase.h"
 #include "BL_GamemodeBase.generated.h"
 
 
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnProjectileHit, AActor*, HitActor)
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnScoreChanged, int, PlayerScore, int, EnemyScore)
 
 
 
@@ -25,18 +26,33 @@ public:
 
 	ABL_GameModeBase();
 	
-//c++ public methods
-public:
+//c++ private values
+private:
+
+	int PlayerScore = 0;
+	
+	int EnemyScore = 0;
 
 	
-
-
 //>>.................................................................................................................................................<<//
 
 
 //Blueprint methods
 public:
+	
+	UFUNCTION(BlueprintCallable, Category = "GameScore")
+		void ChangeScore(const ABL_BaseCharacter* HitActor);
 
-	UPROPERTY(BlueprintAssignable, Category = "GameStartup")
-		FOnProjectileHit OnGameStartedBind;
+//Blueprint protected
+protected:
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "GameScore")
+		void OnScoreChanged();
+		virtual void OnScoreChanged_Implementation();
+
+//Blueprint values
+public:
+	
+	UPROPERTY(BlueprintAssignable, Category = "GameScore")
+		FOnScoreChanged OnScoreChangedBind;
 };

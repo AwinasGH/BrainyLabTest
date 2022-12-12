@@ -3,6 +3,10 @@
 
 #include "GameFramework/ProjectileMovementComponent.h"
 
+#include "Perception/AIPerceptionStimuliSourceComponent.h"
+#include "Perception/AISense_Prediction.h"
+#include "Perception/AISense_Sight.h"
+
 ABL_BaseProjectile::ABL_BaseProjectile()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -15,4 +19,8 @@ ABL_BaseProjectile::ABL_BaseProjectile()
 
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("StaticMesh");
 	SetRootComponent(StaticMeshComponent);
+	
+	AIStimuliComponent = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>("AIStimuliSourceComponent");
+	AIStimuliComponent->RegisterForSense(UAISense_Sight::StaticClass());
+	AIStimuliComponent->RegisterForSense(UAISense_Prediction::StaticClass());
 }

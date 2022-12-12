@@ -4,27 +4,26 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTService.h"
-#include "BL_SetEnemyService.generated.h"
+#include "BL_SetRotationToBBEntryService.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class BRAINYLABTEST_API UBL_SetEnemyService : public UBTService
+class BRAINYLABTEST_API UBL_SetRotationToBBEntryService : public UBTService
 {
 	GENERATED_BODY()
-
 	
 //constructor
 public:
 	
-	UBL_SetEnemyService();
+	UBL_SetRotationToBBEntryService();
+	
 
 //c++ public methods
 public:
 	
 	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
-
 
 //>>>................................................................................................>>>//
 
@@ -33,8 +32,5 @@ public:
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI | BlackboardKey")
-		FBlackboardKeySelector EnemyActor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI | BlackboardKey")
-		FBlackboardKeySelector ProjectileActor;
+		FBlackboardKeySelector BBEntry;
 };
