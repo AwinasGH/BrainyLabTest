@@ -18,8 +18,6 @@ UBL_SetEnemyService::UBL_SetEnemyService()
 
 void UBL_SetEnemyService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
-	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
-
 	UBlackboardComponent* LBlackBoard = OwnerComp.GetBlackboardComponent();
 	
 	ABL_BaseAIController* LController = Cast<ABL_BaseAIController>(OwnerComp.GetAIOwner());

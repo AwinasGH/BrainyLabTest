@@ -4,11 +4,17 @@
 
 #include "CoreMinimal.h"
 
-#include "BehaviorTree/BehaviorTreeTypes.h"
 
 #include "Perception/AIPerceptionComponent.h"
 
 #include "BL_AIPerceptionComponent.generated.h"
+
+
+class ABL_BaseProjectile;
+class ABL_BaseCharacter;
+class UAISense_Sight;
+
+
 
 /**
  * 
@@ -67,11 +73,16 @@ public:
 
 //Blueprint public methods
 public:
-
+	
+	template <typename SenseType, typename ClassSearch>
+	UFUNCTION(BlueprintCallable, Category = "AI")
+		AActor* GetClosestPerceiver(AActor* ChachedVariable);
 
 	UFUNCTION(BlueprintCallable, Category = "AI")
-		AActor* GetClosestEnemy();
+		FORCEINLINE AActor* GetClosestEnemy() { return GetClosestPerceiver<UAISense_Sight, ABL_BaseCharacter>(CurrentEnemy); };
 
 	UFUNCTION(BlueprintCallable, Category = "AI")
-		AActor* GetClosestProjectile();
+		FORCEINLINE AActor* GetClosestProjectile() { return GetClosestPerceiver<UAISense_Sight, ABL_BaseProjectile>(CurrentEnemy); };
 };
+
+

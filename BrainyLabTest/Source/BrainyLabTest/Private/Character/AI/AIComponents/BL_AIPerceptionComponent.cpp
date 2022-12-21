@@ -3,14 +3,16 @@
 
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
-#include "Character/BL_BaseCharacter.h"
 #include "Character/AI/Controllers/BL_BaseAIController.h"
+
 #include "Components/WeaponComponent/BaseProjectile/BL_BaseProjectile.h"
-#include "Perception/AISenseConfig.h"
+
 #include "Perception/AISenseConfig_Prediction.h"
 #include "Perception/AISense_Prediction.h"
-
 #include "Perception/AISense_Sight.h"
+
+#include "Character/BL_BaseCharacter.h"
+
 
 
 UBL_AIPerceptionComponent::UBL_AIPerceptionComponent(const FObjectInitializer& ObjectInitializer)
@@ -26,15 +28,17 @@ void UBL_AIPerceptionComponent::BeginPlay()
 }
 
 
-AActor* UBL_AIPerceptionComponent::GetClosestEnemy()
+
+template <typename SenseType, typename ClassSearch>
+AActor* UBL_AIPerceptionComponent::GetClosestPerceiver(AActor* ChachedVariable)
 {
 	TArray<AActor*> PerceiveActors;
-	GetCurrentlyPerceivedActors(UAISense_Sight::StaticClass(), PerceiveActors);
+	GetCurrentlyPerceivedActors(SenseType::StaticClass(), PerceiveActors);
 	if ( PerceiveActors.Num() == 0 )
 	{
-		if( CurrentEnemy != nullptr )
+		if( ChachedVariable != nullptr )
 		{
-			CurrentEnemy = nullptr;
+			ChachedVariable = nullptr;
 		} 
 
 		return nullptr;
@@ -53,7 +57,7 @@ AActor* UBL_AIPerceptionComponent::GetClosestEnemy()
 	
 	for (const auto& PerceiveActor : PerceiveActors) 
 	{
-		if( !PerceiveActor->GetClass()->IsChildOf(ABL_BaseCharacter::StaticClass()) ) continue;
+		if( !PerceiveActor->GetClass()->IsChildOf(ClassSearch::StaticClass()) ) continue;
 		
 		const float CurrentDistance = (PerceiveActor->GetActorLocation() - AIPawn->GetActorLocation()).Size();
 				
@@ -64,68 +68,18 @@ AActor* UBL_AIPerceptionComponent::GetClosestEnemy()
 		}
 	}
 
-	
-	if( CurrentEnemy != ClosestActor && ClosestActor != nullptr )
+	if( ChachedVariable != ClosestActor && ClosestActor != nullptr )
 	{
-		CurrentEnemy = ClosestActor;
+		ChachedVariable = ClosestActor;
 	}
-	else if( CurrentEnemy != ClosestActor && CurrentEnemy != nullptr )
+	else if( ChachedVariable != ClosestActor && ChachedVariable != nullptr )
 	{
-		CurrentEnemy = nullptr;
+		ChachedVariable = nullptr;
 	}
 
-	return CurrentEnemy;
+	return ChachedVariable;
 }
 
-AActor* UBL_AIPerceptionComponent::GetClosestProjectile()
-{
-	TArray<AActor*> PerceiveActors;
-	GetCurrentlyPerceivedActors(UAISense_Sight::StaticClass(), PerceiveActors);
-	if ( PerceiveActors.Num() == 0 )
-	{
-		if( CurrentProjectile != nullptr )
-		{
-			CurrentProjectile = nullptr;
-		} 
-
-		return nullptr;
-	}
-	
-	const ABL_BaseAIController* AIController = Cast<ABL_BaseAIController>(GetOwner());
-	if ( !IsValid(AIController) ) return nullptr;
-	
-	const APawn* AIPawn = AIController->GetPawn();
-	if ( !IsValid(AIPawn) ) return nullptr;
-
-
-	float BestDistance = MAX_FLT;
-	AActor* ClosestProjectile = nullptr;
-	
-	
-	for (const auto& PerceiveActor : PerceiveActors) 
-	{
-		if( !PerceiveActor->GetClass()->IsChildOf(ABL_BaseProjectile::StaticClass()) ) continue;
-		
-		const float CurrentDistance = (PerceiveActor->GetActorLocation() - AIPawn->GetActorLocation()).Size();
-				
-		if ( CurrentDistance < BestDistance )
-		{
-			BestDistance = CurrentDistance;
-			ClosestProjectile = PerceiveActor;
-		}
-	}
-	
-	if( CurrentProjectile != ClosestProjectile && ClosestProjectile != nullptr )
-	{
-		CurrentProjectile = ClosestProjectile;
-	}
-	else if( CurrentProjectile != ClosestProjectile && CurrentProjectile != nullptr )
-	{
-		CurrentProjectile = nullptr;
-	}
-
-	return CurrentProjectile;
-}
 
 
 void UBL_AIPerceptionComponent::OnPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
